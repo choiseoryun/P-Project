@@ -12,8 +12,6 @@ db.user = User;
 User.init(sequelize);
 
 
-
-
 const dbConnect = () => {
     return sequelize
         .sync({

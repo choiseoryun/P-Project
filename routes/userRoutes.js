@@ -1,7 +1,9 @@
 const express = require("express");
 const router = express.Router();
+const cookieParser = require("cookie-parser");
 const { getAllUsers, addUser, deleteUser} = require("../controllers/userController");
 
+router.use(cookieParser())
 router
     .route("/")
     .get(getAllUsers)

@@ -1,4 +1,5 @@
 const express = require("express");
+const cookieParser = require('cookie-parser');
 const app = express();
 const path = require("path");
 const cors = require('cors');
@@ -12,6 +13,7 @@ dbConnect();
 
 app.use(express.static(path.join(__dirname, "/react-test/build")));
 app.use(cors())
+app.use(cookieParser());
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(methodOverride('_method'));
@@ -23,6 +25,7 @@ app.get("/", (req, res) => {
 });
 
 app.use('/user', require("./routes/userRoutes"));
+app.use('/login', require("./routes/loginRoutes"));
 
 app.listen(port, () => {
     console.log(`${port}번 포트에서 실행중`)

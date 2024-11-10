@@ -31,7 +31,6 @@ const addUser = asyncHandler(async(req,res)=>{
     }
 })
 
-//delete 기능 만들기 update 결제기능
 const deleteUser = asyncHandler(async(req,res)=>{
     try {
         console.log(req.params.id)
