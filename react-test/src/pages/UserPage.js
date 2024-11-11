@@ -7,7 +7,7 @@ function UserPage() {
   useEffect(() => {
     axios.get('http://localhost:3001/user')
       .then(response => {
-        setUsers(response.data); // 여러 사용자 데이터를 설정
+        setUsers(response.data); 
       })
       .catch(error => {
         console.error("서버 요청 중 오류 발생:", error);

@@ -1,6 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import TokenValidity from '../TokenValidity';
 
 function Home() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [isTokenValid, setIsTokenValid] = useState(null);
+
+  useEffect(() => {
+    const checkToken = async () => {
+      const isValid = await TokenValidity();
+      console.log(isValid)
+      if (!isValid) {
+        navigate("/login")
+      }
+      setIsTokenValid(isValid);
+    };
+    checkToken();
+  }, [location, navigate]);
+
   return (
     <div>
       <h1>메인 페이지</h1>

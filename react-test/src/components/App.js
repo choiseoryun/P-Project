@@ -1,20 +1,38 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
 import Home from '../pages/Home';
 import UserPage from '../pages/UserPage';
 import AddUserPage from '../pages/AddUserPage';
 import Login from '../pages/Login';
+import TokenValidity from '../TokenValidity'; 
 
 function App() {
+  const [token, setToken] = useState(null); 
+  useEffect(() => {
+    const checkToken = async () => {
+      const token = await TokenValidity(); 
+      if (!token) {
+        setToken(null);
+      } else {
+        setToken(token); 
+      }
+    };
+    checkToken();
+  }, []);
+
   return (
     <Router>
       <div>
-        <nav>
-          <Link to="/">홈</Link>
-          <Link to="/user">유저 정보</Link>
-          <Link to="/user/add">유저 추가</Link>
-          <Link to="/login">로그인</Link>
-        </nav>
+        {/* 토큰이 있을 경우에만 네비게이션 메뉴를 보여줌 */}
+        {token && (
+          <nav>
+            <Link to="/">홈 </Link>
+            <Link to="/user">유저 정보 </Link>
+            <Link to="/user/add">유저 추가 </Link>
+            <a href="/login/logout">로그아웃 </a>
+          </nav>
+        )}
+
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/user" element={<UserPage />} />

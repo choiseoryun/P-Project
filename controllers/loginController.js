@@ -32,12 +32,20 @@ const checkToken = (req, res, next) => {
     }
     try {
         const decoded = jwt.verify(token, jwtSecret);
+        console.log(decoded)
+        console.log("약;")
         req.username = decoded.username;
-        next();
+        res.status(200).json({message:"success"})
     } catch (error) {
-        return res.status(401).send("로그인 필요");
+        return res.status(401).json({message:"fail"})
     }
 };
 
+const logout = (req, res) =>{
+    console.log("로그아웃")
+    res.clearCookie("token");
+    res.redirect("/")
+}
 
-module.exports = {userLogin, checkToken}
+
+module.exports = {userLogin, checkToken, logout}
