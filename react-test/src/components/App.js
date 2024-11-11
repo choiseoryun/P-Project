@@ -5,6 +5,8 @@ import UserPage from '../pages/UserPage';
 import AddUserPage from '../pages/AddUserPage';
 import Login from '../pages/Login';
 import TokenValidity from '../TokenValidity'; 
+import UpdateUserPage from '../pages/updateUserPage';
+import Payment from '../pages/Payment';
 
 function App() {
   const [token, setToken] = useState(null); 
@@ -29,6 +31,7 @@ function App() {
             <Link to="/">홈 </Link>
             <Link to="/user">유저 정보 </Link>
             <Link to="/user/add">유저 추가 </Link>
+            <Link to="/payment">결제하기 </Link>
             <a href="/login/logout">로그아웃 </a>
           </nav>
         )}
@@ -38,6 +41,8 @@ function App() {
           <Route path="/user" element={<UserPage />} />
           <Route path="/user/add" element={<AddUserPage />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/user/:id" element={<UpdateUserPage />} />
+          <Route path="/payment" element={<Payment />} />
         </Routes>
       </div>
     </Router>

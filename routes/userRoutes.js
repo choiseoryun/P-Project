@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const cookieParser = require("cookie-parser");
-const { getAllUsers, addUser, deleteUser} = require("../controllers/userController");
+const { getAllUsers, addUser, deleteUser, getUpdateUser} = require("../controllers/userController");
 
 router.use(cookieParser())
 router
@@ -15,5 +15,6 @@ router
 router
     .route("/:id")
     .delete(deleteUser)
+    .get(getUpdateUser)
 
 module.exports = router

@@ -42,6 +42,16 @@ const deleteUser = asyncHandler(async(req,res)=>{
     }
 })
 
+const getUpdateUser = asyncHandler(async(req,res)=>{
+    try {
+        const user = await db.user.findOne({ where: { user_num: req.params.id } });
+        console.log(user)
+        res.json(user);
+    } catch (error) {
+        res.status(500).json({ message: '서버 오류', error: error.message });
+    }
+})
 
 
-module.exports = {getAllUsers, addUser, deleteUser};
+
+module.exports = {getAllUsers, addUser, deleteUser, getUpdateUser};
