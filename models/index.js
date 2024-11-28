@@ -15,7 +15,6 @@ User.init(sequelize);
 const dbConnect = () => {
     return sequelize
         .sync({
-
         })
         .then(() => {
             console.log('Databases SYNC COMPLETED!!');

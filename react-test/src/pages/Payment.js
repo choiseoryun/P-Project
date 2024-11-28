@@ -1,49 +1,59 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-function Payment() {
-  function onClickPayment() {
-    /* 1. 가맹점 식별하기 */
-    const { IMP } = window;
-    IMP.init('imp84203221');
-
-    /* 2. 결제 데이터 정의하기 */
-    const data = {
-      pg: 'inicis_v2',                           // PG사
-      pay_method: 'card',                           // 결제수단
-      merchant_uid: `mid_${new Date().getTime()}`  , // 주문번호
-      amount: 1000,                                 // 결제금액
-      name: '아임포트 결제 데이터 분석',                  // 주문명
-      buyer_name: '홍길동',                           // 구매자 이름
-      buyer_tel: '01012341234',                     // 구매자 전화번호
-      buyer_email: 'example@example',               // 구매자 이메일
-      buyer_addr: '신사동 661-16',                    // 구매자 주소
-      buyer_postcode: '06018',                      // 구매자 우편번호
+const Payment = () => {
+  useEffect(() => {
+    // 아임포트 라이브러리 로드
+    const script = document.createElement('script');
+    script.src = "https://cdn.iamport.kr/v1/iamport.js";
+    script.async = true; 
+    script.onload = () => {
+      if (window.IMP) {
+        console.log("Iamport 라이브러리 로드 완료");
+        window.IMP.init('imp84203221'); // 아임포트 상점 식별자
+      } else {
+        console.error("IMP 라이브러리 로드 실패");
+      }
     };
+    document.body.appendChild(script);
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
 
-    /* 4. 결제 창 호출하기 */
-    IMP.request_pay(data, callback);
-  }
-
-  /* 3. 콜백 함수 정의하기 */
-  function callback(response) {
-    const {
-      success,
-      merchant_uid,
-      error_msg,
-    } = response;
-
-    if (success) {
-      alert('결제 성공');
+  const onClickPay = () => {
+    if (window.IMP) {
+      window.IMP.request_pay({
+        pg: "uplus", 
+        pay_method: "card", 
+        merchant_uid: `ORD${new Date().getTime()}`, 
+        name: "크레딧 충전", 
+        amount: 60000,
+        buyer_email: "test@naver.com",
+        buyer_name: "홍길동",
+        buyer_tel: "010-1234-5678",
+        buyer_addr: "서울특별시 강남구",
+        buyer_postcode: "12345",
+        m_redirect_url: "http://localhost:3000/payment-complete", // 리디렉션 URL (HTTP에서 동작)
+      }, function (response) {
+        const { success, error_msg } = response;
+        if (success) {
+          alert("결제가 성공적으로 완료되었습니다.");
+          console.log(response);
+        } else {
+          alert(`결제 실패: ${error_msg}`);
+          console.error(response);
+        }
+      });
     } else {
-      alert(`결제 실패: ${error_msg}`);
+      alert("아임포트가 로드되지 않았습니다.");
     }
-  }
+  };
 
   return (
-
-    <button onClick={onClickPayment}>결제하기</button>
-
+    <div>
+      <button onClick={onClickPay}>결제하기</button>
+    </div>
   );
-}
+};
 
 export default Payment;
